@@ -13,7 +13,7 @@ typedef enum MenuOption {
 } MenuOption;
 
 void print_menu(void) {
-    puts("\n\n[1] - Add book\n[2] - Search by name\n[3] - Change price\n[4] - Change price\n[5] - Inorder library show\n[6] - Quit");
+    puts("\n\n[1] - Add book\n[2] - Search by name\n[3] - Change price\n[4] - Change quantity\n[5] - Inorder library show\n[6] - Quit");
     printf("Insert the wished option number: ");
 }
 
@@ -44,7 +44,12 @@ int main() {
                 
                 insert_book(&root, book_name, book_author, book_price, book_quantity);
                 break;
-            case SEARCH_BYNAME:
+                case SEARCH_BYNAME:
+                char target[100];
+                printf("\nInsert book name: ");
+                scanf("\n%99[^\n]", target);
+
+                search_book_name(root, target);
                 break;
             case CHANGE_PRICE:
                 break;

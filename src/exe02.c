@@ -47,6 +47,18 @@ void insert_book(Book **root_book, char *name, char *author, double price, int q
     }
 }
 
+void search_book_name(Book *book, char *target_name) {
+    if (book) {
+        if (strcmp(book->data.name, target_name) == 0) {
+            printf("\nName: %s\nAuthor: %s\nPrice: %.2lf\nQuantity: %d\n", book->data.name, book->data.author, book->data.price, book->data.quantity);
+        } else if (strcmp(target_name, book->data.name) > 0) {
+            search_book_name(book->right, target_name);
+        } else {
+            search_book_name(book->left, target_name);
+        }
+    }
+}
+
 void inorder_trav(Book *book) {
     if (book) {
         inorder_trav(book->left);
@@ -56,14 +68,14 @@ void inorder_trav(Book *book) {
 }
 
 void free_library(Book *book) {
-    if (book) {
+    if (book) { 
         // Percorre as subárvores, desalocando-as primeiro
         free_library(book->left);
         free_library(book->right);
 
         // Libera o espaço alocado para o nome do livro e o autor
         free(book->data.name);
-        free(book->data.author);
+        free(book->data.author); 
 
         // Libera a raiz
         free(book);
