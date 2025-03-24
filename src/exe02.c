@@ -59,6 +59,32 @@ void search_book_name(Book *book, char *target_name) {
     }
 }
 
+void change_book_price(Book *book, char *target_name, double new_price) {
+    if (book) {
+        if (strcmp(book->data.name, target_name) == 0) {
+            book->data.price = new_price;
+            puts("\nPrice changed succesfully.");
+        } else if (strcmp(target_name, book->data.name) > 0) {
+            change_book_price(book->right, target_name, new_price);
+        } else {
+            change_book_price(book->left, target_name, new_price);
+        }
+    }
+}
+
+void change_book_quant(Book *book, char *target_name, int quantity) {
+    if (book) {
+        if (strcmp(book->data.name, target_name) == 0) {
+            book->data.quantity = quantity;
+            puts("\nQuantity changed succesfully.");
+        } else if (strcmp(target_name, book->data.name) > 0) {
+            change_book_quant(book->right, target_name, quantity);
+        } else {
+            change_book_quant(book->left, target_name, quantity);
+        }
+    }
+}
+
 void inorder_trav(Book *book) {
     if (book) {
         inorder_trav(book->left);

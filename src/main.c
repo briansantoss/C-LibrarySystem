@@ -44,17 +44,37 @@ int main() {
                 
                 insert_book(&root, book_name, book_author, book_price, book_quantity);
                 break;
-                case SEARCH_BYNAME:
+
+            case SEARCH_BYNAME:
                 char target[100];
                 printf("\nInsert book name: ");
                 scanf("\n%99[^\n]", target);
-
+            
                 search_book_name(root, target);
                 break;
+
             case CHANGE_PRICE:
+                printf("\nInsert book name: ");
+                scanf("\n%99[^\n]", book_name);
+                
+                double new_price;
+                printf("\nInsert the new price: ");
+                scanf("%lf", &new_price);
+
+                change_book_price(root, book_name, new_price);
                 break;
+                
             case CHANGE_QUANT:
-                break;
+                printf("\nInsert book name: ");
+                scanf("\n%99[^\n]", book_name);
+                
+                int quantity;
+                printf("\nInsert the new price: ");
+                scanf("%d", &quantity);
+
+                change_book_quant(root, book_name, quantity);
+            break;
+
             case INORDER_SHOW:
                 inorder_trav(root);
                 break;
