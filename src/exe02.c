@@ -50,7 +50,22 @@ void insert_book(Book **root_book, char *name, char *author, double price, int q
 void inorder_trav(Book *book) {
     if (book) {
         inorder_trav(book->left);
-        puts(book->data.name);
+        printf("\n%s", book->data.name);
         inorder_trav(book->right);
+    }
+}
+
+void free_library(Book *book) {
+    if (book) {
+        // Percorre as subárvores, desalocando-as primeiro
+        free_library(book->left);
+        free_library(book->right);
+
+        // Libera o espaço alocado para o nome do livro e o autor
+        free(book->data.name);
+        free(book->data.author);
+
+        // Libera a raiz
+        free(book);
     }
 }

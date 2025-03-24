@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "exe02.h"
 
+// Declarando opções do menu
 typedef enum MenuOption {
     ADD_BOOK = 1,
     SEARCH_BYNAME,
@@ -12,7 +13,7 @@ typedef enum MenuOption {
 } MenuOption;
 
 void print_menu(void) {
-    puts("\n[1] - Add book\n[2] - Search by name\n[3] - Change price\n[4] - Change price\n[5] - Inorder library show\n[6] - Quit");
+    puts("\n\n[1] - Add book\n[2] - Search by name\n[3] - Change price\n[4] - Change price\n[5] - Inorder library show\n[6] - Quit");
     printf("Insert the wished option number: ");
 }
 
@@ -54,6 +55,7 @@ int main() {
                 break;
         }
     } while (option != QUIT);
+    free_library(root);
     puts("\nThanks for using our system. See you next time!");
     return 0;
 }

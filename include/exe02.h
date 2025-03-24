@@ -18,5 +18,6 @@ void search_book_name(Book **root_book, char *target_name);
 void change_book_price(Book **root_book, char *target_name);
 void change_book_quant(Book **root_book, char *target_name);
 void inorder_trav(Book *book);
+void free_library(Book *book);
 
 #endif
