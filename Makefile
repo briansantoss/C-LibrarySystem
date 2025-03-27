@@ -10,7 +10,7 @@ SRCS = $(wildcard $(SRCDIR)*.c)
 OBJS = $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRCS))
 
 all: main
-	@./$(BINDIR)main
+	@./$(BINDIR)$<
 
 main: $(OBJS)
 	@$(CC) $(CFLAGS) -o $(BINDIR)$@ $^

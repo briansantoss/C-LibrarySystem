@@ -10,11 +10,16 @@ void insert_book(Book **root_book, char* name, char* author, double price, int q
             fprintf(stderr, "\nError: Cannot allocate memory.\n");
             return;
         }
-        
+
         // Reservando espaço para o nome do livro e do autor
         char* book_name = (char*) malloc(strlen(name) + 1);
         char* book_author = (char*) malloc(strlen(author) + 1);
+
+        // Liibera a memória das alocações não bem sucedidas caso alguma falhe
         if (!book_name || !book_author) {
+            free(new_book);
+            free(book_name);
+            free(book_author);
             fprintf(stderr, "\nError: Cannot allocate memory.\n");
             return;
         }
@@ -37,13 +42,60 @@ void insert_book(Book **root_book, char* name, char* author, double price, int q
         return; // Retorno prévio para evitar chamadas recursivas desncessárias
     }
 
-    if (strcmp(name, (*root_book)->data.name) > 0) {
+    // Armazena o resultado da comperação do nome do alvo com o nome do nó atual
+    int target_cmp = strcmp(name, (*root_book)->data.name);
+    if (target_cmp > 0) {
         insert_book((&(*root_book)->right), name, author, price, quantity);
-    } else if (strcmp(name, (*root_book)->data.name) < 0) {
+    } else if (target_cmp < 0) {
         insert_book((&(*root_book)->left), name, author, price, quantity);
     } else {
         fprintf(stderr, "\nError: Duplicate spotted.\n");
+        return;
     }
+}
+
+void iter_insert_book(Book** root_book, char* name, char* author, double price, int quantity) {
+    Book** curr = root_book;
+    while (*curr) {
+        int target_cmp = strcmp(name, (*curr)->data.name);
+        if (target_cmp > 0) {
+            curr = &(*curr)->right;
+        } else if (target_cmp < 0) {
+            curr = &(*curr)->left;
+        } else {
+            fprintf(stderr, "\nError: Duplicate spotted.\n");
+            return;
+        }
+    }
+
+    Book* new_book = (Book*) malloc(sizeof (Book));
+    if (!new_book) {
+        fprintf(stderr, "\nError: Cannot allocate memory.\n");
+        return;
+    }
+
+    char* book_name = (char*) malloc(strlen(name) + 1);
+    char* book_author = (char*) malloc(strlen(author) + 1);
+
+    if (!book_name || !book_author) {
+        free(new_book);
+        free(book_name);
+        free(book_author);
+        fprintf(stderr, "\nError: Cannot allocate memory.\n");
+        return;
+    }
+
+    strcpy(book_name, name);
+    strcpy(book_author, author);
+
+    new_book->data.name = book_name;
+    new_book->data.author = book_author;
+    new_book->data.price = price;
+    new_book->data.quantity = quantity;
+
+    new_book->left = new_book->right = NULL;
+
+    *curr = new_book;
 }
 
 void search_book_name(Book *book, char *target_name) {

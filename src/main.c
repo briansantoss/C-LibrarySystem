@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "exe02.h"
+#include "book.h"
 
 // Declarando opções do menu
 typedef enum MenuOption {
@@ -35,14 +35,14 @@ int main() {
                 scanf("\n%99[^\n]", book_author);
                 
                 double book_price;
-                printf("\nInsert book price: ");
+                printf("Insert book price: ");
                 scanf("%lf", &book_price);
                 
                 int book_quantity;
                 printf("Insert book quantity: ");
                 scanf("%d", &book_quantity);
                 
-                insert_book(&root, book_name, book_author, book_price, book_quantity);
+                iter_insert_book(&root, book_name, book_author, book_price, book_quantity);
                 break;
 
             case SEARCH_BYNAME:
