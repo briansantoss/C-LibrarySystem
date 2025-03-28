@@ -3,8 +3,8 @@
 #include <string.h>
 #include "book.h"
 
-void insert_book(Book **root_book, char* title, char* author, double price, int quantity) {
-    if (!*root_book) {
+void insert_book(Book** book, char* title, char* author, double price, int quantity) {
+    if (!*book) {
         Book *new_book = (Book*) malloc(sizeof (Book));
         if (!new_book) {
             fprintf(stderr, "\nError: Cannot allocate memory.\n");
@@ -38,24 +38,24 @@ void insert_book(Book **root_book, char* title, char* author, double price, int 
         new_book->left = new_book->right = NULL;
 
         // Anexando o nó à árvore
-        *root_book = new_book;
+        *book = new_book;
         return; // Retorno prévio para evitar chamadas recursivas desncessárias
     }
 
     // Armazena o resultado da comperação do nome do alvo com o nome do nó atual
-    int target_cmp = strcmp(title, (*root_book)->data.title);
+    int target_cmp = strcmp(title, (*book)->data.title);
     if (target_cmp > 0) {
-        insert_book((&(*root_book)->right), title, author, price, quantity);
+        insert_book((&(*book)->right), title, author, price, quantity);
     } else if (target_cmp < 0) {
-        insert_book((&(*root_book)->left), title, author, price, quantity);
+        insert_book((&(*book)->left), title, author, price, quantity);
     } else {
         fprintf(stderr, "\nError: Duplicate spotted.\n");
         return;
     }
 }
 
-void iter_insert_book(Book** root_book, char* title, char* author, double price, int quantity) {
-    Book** curr = root_book;
+void iter_insert_book(Book** book, char* title, char* author, double price, int quantity) {
+    Book** curr = book;
     while (*curr) {
         int target_cmp = strcmp(title, (*curr)->data.title);
         if (target_cmp > 0) {
@@ -161,6 +161,56 @@ void inorder_trav(Book* book) {
         inorder_trav(book->right);
     }
 }
+
+Book* find_right_min(Book* book) {
+    Book* curr = book;
+    // Percorre a subárvore esquerda
+    while (curr && curr->left) {
+        curr = curr->left;
+    }
+    printf("%s", curr->data.title);
+    return curr;
+}
+
+void remove_book(Book** book, char* target_title) {
+    if (!*book) {
+        fprintf(stderr, "\nError: No book with name %s was found.", target_title);
+        return;
+    }
+
+    int target_cmp = strcmp(target_title, (*book)->data.title);
+    if (target_cmp > 0) {
+        remove_book(&(*book)->right, target_title);
+    } else if (target_cmp < 0) {
+        remove_book(&(*book)->left, target_title);
+    } else {
+        // Verifica quais filhos o nó tem (esquerda e direita)
+        Book* right = (*book)->right;
+        Book* left = (*book)->left;
+        if (right && left) { // Caso onde o nó atual tem os dois filhos
+            // Encontra o menor nó da subárvore direita
+            Book* right_min_book = find_right_min((*book)->right);
+
+            (*book)->data = right_min_book->data;
+
+            // Remove o menor nó da subárvore direita
+            remove_book(&(*book)->right, right_min_book->data.title); // Corrigido aqui
+        } else if (right || left) { // Caso onde só há um filho
+            // Obtém o nó não vazio
+            Book* existent_child = right ? right : left;
+
+            free(*book);
+
+            // Troca o nó atual pelo seu único filho
+            *book = existent_child;
+        } else { // Caso o nó seja uma folha
+            // Libera o espaço reservado para o nó atual
+            free(*book);
+            *book = NULL;
+        }
+    }
+}
+
 
 void free_library(Book *book) {
     if (book) { 

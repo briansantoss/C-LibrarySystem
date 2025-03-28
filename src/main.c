@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "book.h"
 
+#define MAX_STR_LEN 100
 // Declarando opções do menu
 typedef enum MenuOption {
     ADD_BOOK = 1,
@@ -9,16 +10,21 @@ typedef enum MenuOption {
     CHANGE_PRICE,
     CHANGE_QUANT,
     INORDER_SHOW,
+    REMOVE_BOOK,
     QUIT
 } MenuOption;
 
 void print_menu(void) {
-    puts("\n\n[1] - Add book\n[2] - Search by name\n[3] - Change price\n[4] - Change quantity\n[5] - Inorder library show\n[6] - Quit");
+    puts("\n\n[1] - Add book\n[2] - Search by name\n[3] - Change price\n[4] - Change quantity\n[5] - Inorder library show\n[6] - Remove book\n[7] - Quit");
     printf("Insert the wished option number: ");
 }
 
 int main() {
-    Book *root = NULL;
+    char book_title[MAX_STR_LEN], book_author[MAX_STR_LEN];
+    double price;
+    int quantity;
+
+    Book *root;
 
     int option = 0;
     do {
@@ -26,58 +32,57 @@ int main() {
         scanf("%d", &option);
         switch (option) {
             case ADD_BOOK:
-                char book_name[100];
-                printf("\nInsert book name: ");
-                scanf("\n%99[^\n]", book_name);
+                printf("\nInsert book title: ");
+                scanf("\n%99[^\n]", book_title);
                 
-                char book_author[100];
                 printf("\nInsert book author: ");
                 scanf("\n%99[^\n]", book_author);
                 
-                double book_price;
                 printf("Insert book price: ");
-                scanf("%lf", &book_price);
+                scanf("%lf", &price);
                 
-                int book_quantity;
                 printf("Insert book quantity: ");
-                scanf("%d", &book_quantity);
+                scanf("%d", &quantity);
                 
-                iter_insert_book(&root, book_name, book_author, book_price, book_quantity);
+                iter_insert_book(&root, book_title, book_author, price, quantity);
                 break;
 
             case SEARCH_BYNAME:
-                char target[100];
-                printf("\nInsert book name: ");
-                scanf("\n%99[^\n]", target);
+                printf("\nInsert book title: ");
+                scanf("\n%99[^\n]", book_title);
             
-                search_book_name(root, target);
+                search_book_name(root, book_title);
                 break;
 
             case CHANGE_PRICE:
-                printf("\nInsert book name: ");
-                scanf("\n%99[^\n]", book_name);
+                printf("Insert book title: ");
+                scanf("\n%99[^\n]", book_title);
                 
-                double new_price;
                 printf("\nInsert the new price: ");
-                scanf("%lf", &new_price);
+                scanf("%lf", &price);
 
-                change_book_price(root, book_name, new_price);
+                change_book_price(root, book_title, price);
                 break;
                 
             case CHANGE_QUANT:
-                printf("\nInsert book name: ");
-                scanf("\n%99[^\n]", book_name);
+                printf("\nInsert book title: ");
+                scanf("\n%99[^\n]", book_title);
                 
-                int quantity;
                 printf("\nInsert the new price: ");
                 scanf("%d", &quantity);
 
-                change_book_quant(root, book_name, quantity);
+                change_book_quant(root, book_title, quantity);
             break;
 
             case INORDER_SHOW:
                 inorder_trav(root);
                 break;
+            
+            case REMOVE_BOOK:
+                printf("\nInsert book name: ");
+                scanf("\n%99[^\n]", book_title);
+
+                remove_book(&root, book_title);
         }
     } while (option != QUIT);
     free_library(root);
