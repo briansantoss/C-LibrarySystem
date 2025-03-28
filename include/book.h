@@ -19,7 +19,7 @@ void search_book_name(Book* book, char* target_title);
 void change_book_price(Book* book, char* target_title, double new_price);
 void change_book_quant(Book* book, char* target_title, int new_quantity);
 void inorder_trav(Book* book);
-Book* find_right_min(Book* book);
+Book* find_min(Book* book);
 void remove_book(Book** book, char* target_title);
 void free_library(Book* book);
 

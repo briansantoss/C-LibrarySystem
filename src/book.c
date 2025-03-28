@@ -162,7 +162,7 @@ void inorder_trav(Book* book) {
     }
 }
 
-Book* find_right_min(Book* book) {
+Book* find_min(Book* book) {
     Book* curr = book;
     // Percorre a subárvore esquerda
     while (curr && curr->left) {
@@ -189,7 +189,7 @@ void remove_book(Book** book, char* target_title) {
         Book* left = (*book)->left;
         if (right && left) { // Caso onde o nó atual tem os dois filhos
             // Encontra o menor nó da subárvore direita
-            Book* right_min_book = find_right_min((*book)->right);
+            Book* right_min_book = find_min((*book)->right);
 
             (*book)->data = right_min_book->data;
 
@@ -210,7 +210,6 @@ void remove_book(Book** book, char* target_title) {
         }
     }
 }
-
 
 void free_library(Book *book) {
     if (book) { 
