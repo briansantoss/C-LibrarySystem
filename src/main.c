@@ -1,23 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "book.h"
+#include "menu.h"
 
 #define MAX_STR_LEN 100
-// Declarando opções do menu
-typedef enum MenuOption {
-    ADD_BOOK = 1,
-    SEARCH_BYNAME,
-    CHANGE_PRICE,
-    CHANGE_QUANT,
-    INORDER_SHOW,
-    REMOVE_BOOK,
-    QUIT
-} MenuOption;
-
-void print_menu(void) {
-    puts("\n\n[1] - Add book\n[2] - Search by name\n[3] - Change price\n[4] - Change quantity\n[5] - Inorder library show\n[6] - Remove book\n[7] - Quit");
-    printf("Insert the wished option number: ");
-}
 
 int main() {
     char book_title[MAX_STR_LEN], book_author[MAX_STR_LEN];
@@ -74,7 +60,7 @@ int main() {
                 change_book_quant(root, book_title, quantity);
             break;
 
-            case INORDER_SHOW:
+            case SHOW_LIBRARY:
                 inorder_trav(root);
                 break;
             
