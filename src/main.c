@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "book.h"
-#include "menu.h"
+#include "menus.h"
 
 #define MAX_STR_LEN 100
 
@@ -14,7 +14,7 @@ int main() {
 
     int option = 0;
     do {
-        print_menu();
+        print_main_menu();
         scanf("%d", &option);
         switch (option) {
             case ADD_BOOK:
@@ -61,7 +61,30 @@ int main() {
             break;
 
             case SHOW_LIBRARY:
-                inorder_trav(root);
+                print_show_menu();
+
+                int option_show;
+                scanf("%d", &option_show);
+                
+                switch (option_show) {
+                    case PREORDER_SHOW:
+                        printf("\nPREORDER: ");
+                        preorder_trav(root);
+                        break;
+                        
+                    case INORDER_SHOW:
+                        printf("\nINORDER: ");
+                        inorder_trav(root);
+                        break;
+                        
+                    case POSTORDER_SHOW:
+                        printf("\nPOSTORDER: ");
+                        postorder_trav(root);
+                        break;
+
+                    case QUIT_SHOW:
+                        printf("\nExiting show menu...");
+                }
                 break;
             
             case REMOVE_BOOK:

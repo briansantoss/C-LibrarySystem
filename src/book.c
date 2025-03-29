@@ -155,11 +155,27 @@ void change_book_quant(Book* book, char* target_title, int new_quantity) {
     }
 }
 
+void preorder_trav(Book* book) {
+    if (book) {
+        printf("\n%s", book->data.title);
+        preorder_trav(book->left);
+        preorder_trav(book->right);
+    }
+}
+
 void inorder_trav(Book* book) {
     if (book) {
         inorder_trav(book->left);
         printf("\n%s", book->data.title);
         inorder_trav(book->right);
+    }
+}
+
+void postorder_trav(Book* book) {
+    if (book) {
+        postorder_trav(book->left);
+        postorder_trav(book->right);
+        printf("\n%s", book->data.title);
     }
 }
 
