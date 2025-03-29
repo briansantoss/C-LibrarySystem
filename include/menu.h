@@ -1,5 +1,7 @@
 #ifndef MENU_H
 
+#define MENU_H
+
 // Declarando opções do menu
 typedef enum MenuOption {
     ADD_BOOK = 1,

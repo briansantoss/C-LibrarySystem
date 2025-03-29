@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "book.h"
+#include "book-stack.h"
 
 void insert_book(Book** book, char* title, char* author, double price, int quantity) {
     if (!*book) {
@@ -194,7 +195,7 @@ void remove_book(Book** book, char* target_title) {
             (*book)->data = right_min_book->data;
 
             // Remove o menor nó da subárvore direita
-            remove_book(&(*book)->right, right_min_book->data.title); // Corrigido aqui
+            remove_book(&(*book)->right, right_min_book->data.title);
         } else if (right || left) { // Caso onde só há um filho
             // Obtém o nó não vazio
             Book* existent_child = right ? right : left;

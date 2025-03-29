@@ -1,5 +1,7 @@
 #ifndef BOOK_H
 
+#define BOOK_H
+
 typedef struct BookData {
     char* title;
     char* author;
