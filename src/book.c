@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "book.h"
-#include "book-stack.h"
 
 void insert_book(Book** book, char* title, char* author, double price, int quantity) {
     if (!*book) {
