@@ -29,6 +29,8 @@ void postorder_trav(Book* book);
 
 // Funções auxiliares
 Book* find_min(Book* book);
+Book* create_book(char* title, char* author, double price, int quantity);
+void free_book(Book* book);
 void free_library(Book* book);
 
 // Versões iterativas (faem uso de loop e não de recursão)

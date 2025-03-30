@@ -3,39 +3,58 @@
 #include <string.h>
 #include "book.h"
 
+Book* create_book(char* title, char* author, double price, int quantity) {
+    Book* new_book = (Book*) malloc(sizeof (Book));
+    if (!new_book) {
+        return NULL;
+    }
+    
+    // Reserva espaço para o título e o nome do autor
+    new_book->data.title = (char*) malloc(strlen(title) + 1);
+    new_book->data.author = (char*) malloc(strlen(author) + 1);
+    
+    // Caso alguma falhe, libera o espaço
+    if (!new_book->data.title || !new_book->data.author) {
+        free(new_book->data.title);
+        free(new_book->data.author);
+        free(new_book);
+        return NULL;
+    }
+    
+    // Preenche título e autor 
+    strcpy(new_book->data.title, title);
+    strcpy(new_book->data.author, author);
+
+    // Inicializa os demais campos
+    new_book->data.price = price;
+    new_book->data.quantity = quantity;
+
+    // Inicializa o novo livro sem filhos
+    new_book->left = new_book->right = NULL;
+
+    return new_book;
+}
+
+void free_book(Book* book) {
+    if (!book) { // Retorna previamente caso o nó seja vazio
+        return;
+    }
+
+    // Libera o espaço destinado ao título e autor
+    free(book->data.title);
+    free(book->data.author);
+
+    // Por fim, libera o espaço do livro em si
+    free(book);
+}
+
 void insert_book(Book** book, char* title, char* author, double price, int quantity) {
     if (!*book) {
-        Book *new_book = (Book*) malloc(sizeof (Book));
+        Book *new_book = create_book(title, author, price, quantity);
         if (!new_book) {
             fprintf(stderr, "\nError: Cannot allocate memory.\n");
             return;
         }
-
-        // Reservando espaço para o nome do livro e do autor
-        char* book_title = (char*) malloc(strlen(title) + 1);
-        char* book_author = (char*) malloc(strlen(author) + 1);
-
-        // Liibera a memória das alocações não bem sucedidas caso alguma falhe
-        if (!book_title || !book_author) {
-            free(new_book);
-            free(book_title);
-            free(book_author);
-            fprintf(stderr, "\nError: Cannot allocate memory.\n");
-            return;
-        }
-
-        // Preenche a memória alocada com o respectivo conteúdo
-        strcpy(book_title, title);
-        strcpy(book_author, author);
-
-        // Inicializando os campos do livro
-        new_book->data.title = book_title;
-        new_book->data.author = book_author;
-        new_book->data.price = price;
-        new_book->data.quantity = quantity;
-
-        // Inicializando ambos os filhos do novo livro com NULL (folha)
-        new_book->left = new_book->right = NULL;
 
         // Anexando o nó à árvore
         *book = new_book;
@@ -68,32 +87,11 @@ void iter_insert_book(Book** book, char* title, char* author, double price, int 
         }
     }
 
-    Book* new_book = (Book*) malloc(sizeof (Book));
+    Book* new_book =  create_book(title, author, price, quantity);
     if (!new_book) {
         fprintf(stderr, "\nError: Cannot allocate memory.\n");
         return;
     }
-
-    char* book_title = (char*) malloc(strlen(title) + 1);
-    char* book_author = (char*) malloc(strlen(author) + 1);
-
-    if (!book_title || !book_author) {
-        free(new_book);
-        free(book_title);
-        free(book_author);
-        fprintf(stderr, "\nError: Cannot allocate memory.\n");
-        return;
-    }
-
-    strcpy(book_title, title);
-    strcpy(book_author, author);
-
-    new_book->data.title = book_title;
-    new_book->data.author = book_author;
-    new_book->data.price = price;
-    new_book->data.quantity = quantity;
-
-    new_book->left = new_book->right = NULL;
 
     *curr = new_book;
 }
@@ -215,13 +213,13 @@ void remove_book(Book** book, char* target_title) {
             // Obtém o nó não vazio
             Book* existent_child = right ? right : left;
 
-            free(*book);
+            free_book(*book);
 
             // Troca o nó atual pelo seu único filho
             *book = existent_child;
         } else { // Caso o nó seja uma folha
             // Libera o espaço reservado para o nó atual
-            free(*book);
+            free_book(*book);
             *book = NULL;
         }
     }
@@ -233,11 +231,6 @@ void free_library(Book *book) {
         free_library(book->left);
         free_library(book->right);
 
-        // Libera o espaço alocado para o nome do livro e o autor
-        free(book->data.title);
-        free(book->data.author); 
-
-        // Libera a raiz
-        free(book);
+        free_book(book);
     }
 }
