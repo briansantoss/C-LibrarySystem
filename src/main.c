@@ -21,7 +21,7 @@ int main() {
                 printf("\nInsert book title: ");
                 scanf("\n%99[^\n]", book_title);
                 
-                printf("\nInsert book author: ");
+                printf("Insert book author: ");
                 scanf("\n%99[^\n]", book_author);
                 
                 printf("Insert book price: ");
