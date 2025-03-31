@@ -33,7 +33,7 @@ Book* create_book(char* title, char* author, double price, int quantity);
 void free_book(Book* book);
 void free_library(Book* book);
 
-// Versões iterativas (faem uso de loop e não de recursão)
+// Versões iterativas (fazem uso de loop e não de recursão)
 void iter_insert_book(Book** root_book, char* title, char* author, double price, int quantity);
 void iter_inorder_trav(Book* book);
 
