@@ -102,9 +102,10 @@ void search_book_name(Book* book, char* target_title) {
         return; // Retorno prévio
     }
     
-    if (strcmp(target_title, book->data.title) == 0) {
+    int target_cmp = strcmp(target_title, book->data.title);
+    if (target_cmp == 0) {
         printf("\nName: %s\nAuthor: %s\nPrice: %.2lf\nQuantity: %d\n", book->data.title, book->data.author, book->data.price, book->data.quantity);
-    } else if (strcmp(target_title, book->data.title) > 0) {
+    } else if (target_cmp > 0) {
         search_book_name(book->right, target_title);
     } else {
         search_book_name(book->left, target_title);
@@ -117,7 +118,8 @@ void change_book_price(Book* book, char* target_title, double new_price) {
         return; // Retorno prévio
     }
     
-    if (strcmp(target_title, book->data.title) == 0) {
+    int target_cmp = strcmp(target_title, book->data.title);
+    if (target_cmp == 0) {
         if (book->data.price == new_price) {
             fprintf(stderr, "\nError: The price already is %.2lf.", new_price);
             return; 
@@ -126,7 +128,7 @@ void change_book_price(Book* book, char* target_title, double new_price) {
         book->data.price = new_price;
         printf("\nPrice changed to %.2lf succesfully.", new_price);
         return;
-    } else if (strcmp(target_title, book->data.title) > 0) {
+    } else if (target_cmp > 0) {
         change_book_price(book->right, target_title, new_price);
     } else {
         change_book_price(book->left, target_title, new_price);
@@ -139,13 +141,14 @@ void change_book_quant(Book* book, char* target_title, int new_quantity) {
         return; // Retorno prévio
     }
    
-    if (strcmp(target_title, book->data.title) == 0) {
+    int target_cmp = strcmp(target_title, book->data.title);
+    if (target_cmp == 0) {
         if (book->data.quantity == new_quantity) {
             fprintf(stderr, "\nError: The quantity in stock already is %d.", new_quantity);
             return; 
         }
         book->data.quantity = new_quantity;
-    } else if (strcmp(target_title, book->data.title) > 0) {
+    } else if (target_cmp > 0) {
         change_book_quant(book->right, target_title, new_quantity);
     } else {
         change_book_quant(book->left, target_title, new_quantity);
