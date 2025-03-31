@@ -182,7 +182,6 @@ Book* find_min(Book* book) {
     while (curr && curr->left) {
         curr = curr->left;
     }
-    printf("%s", curr->data.title);
     return curr;
 }
 
@@ -213,13 +212,13 @@ void remove_book(Book** book, char* target_title) {
             // Obtém o nó não vazio
             Book* existent_child = right ? right : left;
 
-            free_book(*book);
+            free(*book);
 
             // Troca o nó atual pelo seu único filho
             *book = existent_child;
         } else { // Caso o nó seja uma folha
             // Libera o espaço reservado para o nó atual
-            free_book(*book);
+            free(*book);
             *book = NULL;
         }
     }
