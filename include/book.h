@@ -32,9 +32,12 @@ Book* find_min(Book* book);
 Book* create_book(char* title, char* author, double price, int quantity);
 void free_book(Book* book);
 void free_library(Book* book);
+size_t library_height(Book* book);
+int book_balance_factor(Book* book);
 
 // Versões iterativas (fazem uso de loop e não de recursão)
 void iter_insert_book(Book** root_book, char* title, char* author, double price, int quantity);
 void iter_inorder_trav(Book* book);
+
 
 #endif

@@ -48,6 +48,26 @@ void free_book(Book* book) {
     free(book);
 }
 
+size_t library_height(Book* book) {
+    if (!book) { // Se o nó atual for vazio é adicionado 0 para não interferir
+        return 0;
+    }
+
+    size_t left_subtree_height = library_height(book->left); // Calcula a altura da subárvore esquerda
+    size_t right_subtree_height = library_height(book->right); // Calcula a altura da subárvore direita
+
+    // Pega a maior altura das subárvores e contabiliza a raiz (nó atual) somando 1
+    return 1 + (left_subtree_height > right_subtree_height ? left_subtree_height : right_subtree_height);
+}
+
+int book_balance_factor(Book* book) {
+    if (!book) { // Se o nó atual for vazio a diferença entre as alturas de suas subárvores é nula
+        return 0;
+    }
+
+    return library_height(book->left) - library_height(book->right);
+}
+
 void insert_book(Book** book, char* title, char* author, double price, int quantity) {
     if (!*book) {
         Book *new_book = create_book(title, author, price, quantity);

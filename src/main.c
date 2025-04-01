@@ -32,68 +32,68 @@ int main() {
                 
                 iter_insert_book(&root, book_title, book_author, price, quantity);
                 break;
-
+            
             case SEARCH_BYNAME:
                 printf("\nInsert book title: ");
                 scanf("\n%99[^\n]", book_title);
-            
+                
                 search_book_name(root, book_title);
                 break;
-
+                    
             case CHANGE_PRICE:
                 printf("Insert book title: ");
                 scanf("\n%99[^\n]", book_title);
-                
+                    
                 printf("\nInsert the new price: ");
                 scanf("%lf", &price);
-
+                
                 change_book_price(root, book_title, price);
                 break;
                 
-            case CHANGE_QUANT:
-                printf("\nInsert book title: ");
-                scanf("\n%99[^\n]", book_title);
+                case CHANGE_QUANT:
+                    printf("\nInsert book title: ");
+                    scanf("\n%99[^\n]", book_title);
+                    
+                    printf("\nInsert the new price: ");
+                    scanf("%d", &quantity);
+                    
+                    change_book_quant(root, book_title, quantity);
+                    break;
                 
-                printf("\nInsert the new price: ");
-                scanf("%d", &quantity);
-
-                change_book_quant(root, book_title, quantity);
-            break;
-
-            case SHOW_LIBRARY:
-                print_show_menu();
-
-                int option_show;
-                scanf("%d", &option_show);
+                case SHOW_LIBRARY:
+                    print_show_menu();
                 
-                switch (option_show) {
-                    case PREORDER_SHOW:
+                    int option_show;
+                    scanf("%d", &option_show);
+                    
+                    switch (option_show) {
+                        case PREORDER_SHOW:
                         printf("\nPREORDER: ");
                         preorder_trav(root);
                         break;
-                        
-                    case INORDER_SHOW:
+                            
+                        case INORDER_SHOW:
                         printf("\nINORDER: ");
                         inorder_trav(root);
                         break;
                         
-                    case POSTORDER_SHOW:
+                        case POSTORDER_SHOW:
                         printf("\nPOSTORDER: ");
                         postorder_trav(root);
                         break;
-
-                    case QUIT_SHOW:
+                        
+                        case QUIT_SHOW:
                         printf("\nExiting show menu...");
+                    }
+                    break;
+                    
+                case REMOVE_BOOK:
+                    printf("\nInsert book name: ");
+                    scanf("\n%99[^\n]", book_title);
+                    
+                    remove_book(&root, book_title);
                 }
-                break;
-            
-            case REMOVE_BOOK:
-                printf("\nInsert book name: ");
-                scanf("\n%99[^\n]", book_title);
-
-                remove_book(&root, book_title);
-        }
-    } while (option != QUIT);
+        } while (option != QUIT);
     free_library(root);
     puts("\nThanks for using our system. See you next time!");
     return 0;
